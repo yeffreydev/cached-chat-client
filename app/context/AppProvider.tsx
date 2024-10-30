@@ -1,7 +1,7 @@
 "use client";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { appConfig } from "../config/config";
-import { io } from "socket.io-client";
+import io from "socket.io-client";
 
 interface AppState {
   socket: SocketIOClient.Socket | null;
@@ -19,15 +19,14 @@ const initialState: AppState = {
 export const AppContext = createContext<AppState>(initialState);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-  const [socket, setSocket] = useState<SocketIOClient.Socket | null>(
-    initialState.socket
-  );
+  const [socket] = useState<SocketIOClient.Socket | null>(initialState.socket);
   const [chatId, setChatId] = useState<string | null>(initialState.chatId);
 
   useEffect(() => {
     socket?.on("connect", () => {
       console.log("connected with connection id " + socket.id);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

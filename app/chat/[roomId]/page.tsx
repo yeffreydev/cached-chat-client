@@ -32,13 +32,13 @@ export default function ChatPage() {
   };
 
   useEffect(() => {
-    socket?.on("chat", (data: any) => {
+    socket?.on("chat", (data: { message: string }) => {
       setMessages((prev) => [...prev, data.message]);
     });
     return () => {
       socket?.off("chat");
     };
-  }, []);
+  }, [socket]);
 
   if (!chatId) {
     return (
@@ -69,13 +69,13 @@ export default function ChatPage() {
       <div className="flex-1 flex flex-col overflow-hidden">
         <div
           ref={chatRef}
-          className="flex-1 overflow-y-scroll border border-red-400"
+          className="flex-1 overflow-y-scroll border border-red-400 pb-[100px]"
         >
           {messages.map((message, index) => (
             <Message key={index} text={message} />
           ))}
         </div>
-        <div className="bg-gray-300 py-2 px-7 flex gap-5">
+        <div className="bg-gray-300 py-2 px-7 flex gap-5 fixed bottom-0">
           <input
             className=" border border-black p-1 rounded-lg"
             placeholder="type message"
@@ -84,7 +84,7 @@ export default function ChatPage() {
           />
           <button
             onClick={handleSendMessage}
-            className="bg-black text-white px-5 rounded-lg"
+            className="bg-black text-white px-5 rounded-lg "
           >
             Send
           </button>

@@ -20,7 +20,7 @@ export default function Home() {
     }, 5000);
   };
   useEffect(() => {
-    socket?.on("joined-chat", (data: any) => {
+    socket?.on("joined-chat", (data: { chatId: string }) => {
       setLoading(false);
       console.log(data);
       setChatId!(data.chatId);
